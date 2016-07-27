@@ -11,7 +11,7 @@ packadd matchit
 set rtp+=/vim/vim74/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'scroolose/nerdtree'
+Plugin 'scrooloose/nerdtree'
 Plugin 'xolox/vim-easytags'
 Plugin 'xolox/vim-misc'
 Plugin 'shougo/neocomplete.vim'
