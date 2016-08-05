@@ -36,10 +36,10 @@ let g:easytags_dynamic_files=1
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_auto_select = 1
 let g:neocomplete#auto_completion_start_length = 0 
-"if !exists('g:neocomplete#sources')
-  "let g:neocomplete#sources = {}
-"endif
-"let g:neocomplete#sources._ = ['tag', 'buffer']
+if !exists('g:neocomplete#sources')
+  let g:neocomplete#sources = {}
+endif
+let g:neocomplete#sources._ = ['tag', 'buffer']
 "let g:neocomplete#sources.cpp = ['buffer', 'dictionary']
 
 " Define keyword.
@@ -155,7 +155,7 @@ set makeprg=build.bat
 
 " misc
 set hidden " allows switching buffers while still having unsaved changes in prev buffer
-set omnifunc=syntaxcomplete#Complete " I still have no idea what this does...
+"set omnifunc=syntaxcomplete#Complete " I still have no idea what this does...
 set lazyredraw " reduce flickering
 set cryptmethod=blowfish2
 
