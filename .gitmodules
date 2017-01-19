@@ -1,3 +1,6 @@
 [submodule "pkg/win"]
 	path = pkg/win
 	url = https://WildfireXIII@bitbucket.org/WildfireXIII/conf-vim-w-pkg.git
+[submodule "pkg/lx"]
+	path = pkg/lx
+	url = https://WildfireXIII@bitbucket.org/WildfireXIII/conf-vim-lx-pkg.git

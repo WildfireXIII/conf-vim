@@ -79,7 +79,8 @@
 
 if has('gui_running')
 	set guifont=Consolas:h10
-	colorscheme solarized
+	" colorscheme solarized
+	colorscheme jellybeans
 	set background=dark
 	set guioptions-=T " remove toolbar
 	set guioptions-=r " remove scrollbar on right
@@ -134,7 +135,7 @@ set wildmenu
 set wildmode=longest,list
 
 " text editing behavior
-set wrap
+"set wrap
 set encoding=utf-8
 set autoindent " smart indenting and stuff, based on file type
 set textwidth=80 " how many columns before wrapping text (0 for no limit) NOTE: formatoptions specifies what kind of text this is used for 
@@ -257,6 +258,15 @@ nnoremap <LEADER><SPACE> :nohlsearch<CR>
 "automatically add braces!
 "inoremap <C-[> <CR>{<CR>}<Esc>O<tab>
 inoremap <C-[> <CR>{<CR>}<Esc>O
+
+" ==============================================================================
+" COMMAND REMAPPING
+" ==============================================================================
+command W w
+command lw w
+command Lw w
+command lW w
+command LW w
 
 " ==============================================================================
 " MISC
