@@ -49,7 +49,7 @@ endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " complete suggestion with shift space 
-inoremap <expr><S-Space> pumvisible() ? "\<C-y><Space>" : "\<Space>"
+" inoremap <expr><S-Space> pumvisible() ? "\<C-y><Space>" : "\<Space>"
 
 " do thing so that enter doesn't go down to confirm an autocomplete 
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
