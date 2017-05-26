@@ -77,6 +77,19 @@
 " GUI SPECIFIC STUFF
 " ==============================================================================
 
+if &term == "rxvt-unicode-256color"
+	colorscheme jellybeans
+
+	" fix some theming stuff
+	let g:jellybeans_overrides = { 'background': {'ctermbg': 'none', '256ctermbg': 'none'}, }
+	
+	let g:jellybeans_overrides = {
+			\    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
+			\	'CursorLine': { 'ctermbg': 'DarkGrey', '256ctermbg': '236' },
+			\}
+	
+endif
+
 if has('gui_running')
 	set guifont=Consolas:h10
 	" colorscheme solarized
