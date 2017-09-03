@@ -134,14 +134,15 @@ set smartcase " ...unless being smart about it!
 set tabstop=4 " number of columns used for a tab
 set shiftwidth=4 " how columns indent operations (<<, >>) use
 set softtabstop=4 " how many spaces used when hit tab in insert mode
-"set noexpandtab " don't convert tabs to spaces!!! I'm not an anarchist! 
-set expandtab 
+set noexpandtab " don't convert tabs to spaces!!! I'm not an anarchist! 
+autocmd FileType python setlocal expandtab
+"set expandtab 
 
 " folding
 set foldenable
 set foldlevelstart=0 " start with all folds folded
 set foldmethod=syntax " commented out because of neocomplete (slows down?)
-set foldmethod=2 " adds a fold column
+"set foldmethod=2 " adds a fold column
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo " specifies which commands will auto-unfold a section
 
 " commandline tab help/completion
