@@ -6,18 +6,18 @@ behave mswin " set selection selectmode and other stuff for windows
 " ==============================================================================
 
 " matchit plugin makes % work a bit better
-packadd matchit
+" packadd matchit
 
-set rtp+=/vim/vim74/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
+" set rtp+=/vim/vim74/bundle/Vundle.vim
+" call vundle#begin()
+" Plugin 'VundleVim/Vundle.vim'
 " Plugin 'scrooloose/nerdtree'
-Plugin 'xolox/vim-easytags'
-Plugin 'xolox/vim-misc'
-Plugin 'shougo/neocomplete.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'majutshushi/tagbar'
-call vundle#end()
+" Plugin 'xolox/vim-easytags'
+" Plugin 'xolox/vim-misc'
+" Plugin 'shougo/neocomplete.vim'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'majutshushi/tagbar'
+" call vundle#end()
 
 " ---- NERDTree settings ----
 " let g:NERDTreeShowBookmarks=1
@@ -26,49 +26,49 @@ call vundle#end()
 " nnoremap <S-SPACE> :NERDTree<CR>
 
 " ---- easytags settings ----
-let g:easytags_auto_highlight=0
-let g:easytags_auto_update=0 
-let g:easytags_include_members=1
-let g:easytags_supress_report=1
-let g:easytags_dynamic_files=1
+" let g:easytags_auto_highlight=0
+" let g:easytags_auto_update=0 
+" let g:easytags_include_members=1
+" let g:easytags_supress_report=1
+" let g:easytags_dynamic_files=1
 
 " ---- neocomplete settings ----
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_auto_select = 1
-let g:neocomplete#auto_completion_start_length = 0 
-if !exists('g:neocomplete#sources')
-  let g:neocomplete#sources = {}
-endif
-let g:neocomplete#sources._ = ['tag', 'buffer']
-"let g:neocomplete#sources.cpp = ['buffer', 'dictionary']
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-	let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" complete suggestion with shift space 
-" inoremap <expr><S-Space> pumvisible() ? "\<C-y><Space>" : "\<Space>"
-
-" do thing so that enter doesn't go down to confirm an autocomplete 
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  "return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " for not inserting <CR> key.
-  return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
+" let g:neocomplete#enable_at_startup = 1
+" let g:neocomplete#enable_auto_select = 1
+" let g:neocomplete#auto_completion_start_length = 0 
+" if !exists('g:neocomplete#sources')
+  " let g:neocomplete#sources = {}
+" endif
+" let g:neocomplete#sources._ = ['tag', 'buffer']
+" "let g:neocomplete#sources.cpp = ['buffer', 'dictionary']
+" 
+" " Define keyword.
+" if !exists('g:neocomplete#keyword_patterns')
+	" let g:neocomplete#keyword_patterns = {}
+" endif
+" let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+" 
+" " complete suggestion with shift space 
+" " inoremap <expr><S-Space> pumvisible() ? "\<C-y><Space>" : "\<Space>"
+" 
+" " do thing so that enter doesn't go down to confirm an autocomplete 
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+  " "return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " " for not inserting <CR> key.
+  " return pumvisible() ? "\<C-y>" : "\<CR>"
+" endfunction
 
 " ---- UltiSnips settings ----
-let g:UltiSnipsUsePythonVersion = 2
-let g:UltiSnipsEditSplit = "vertical"
-let g:UltiSnipsSnippetsDir="/dwl/lab/Snippets" " where snippets are saved
-let g:UltiSnipsSnippetDirectories=["/dwl/lab/Snippets"] " where snippets are searched for TODO: just add the library directory here, so you can use both quickly created ones as well as the common library
-let g:UltiSnipsExpandTrigger="<C-SPACE>"
-let g:UltiSnipsJumpForwardTrigger="<TAB>"
-let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
-let g:UltiSnipsListSnippets="<C-e>"
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<C-R>=UltiSnips#ExpandSnippet()"
+" let g:UltiSnipsUsePythonVersion = 2
+" let g:UltiSnipsEditSplit = "vertical"
+" let g:UltiSnipsSnippetsDir="/dwl/lab/Snippets" " where snippets are saved
+" let g:UltiSnipsSnippetDirectories=["/dwl/lab/Snippets"] " where snippets are searched for TODO: just add the library directory here, so you can use both quickly created ones as well as the common library
+" let g:UltiSnipsExpandTrigger="<C-SPACE>"
+" let g:UltiSnipsJumpForwardTrigger="<TAB>"
+" let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
+" let g:UltiSnipsListSnippets="<C-e>"
+" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<C-R>=UltiSnips#ExpandSnippet()"
 
 " ---- Tagbar settings ----
 "nmap <silent> <leader>t :TagbarToggle<CR>
@@ -126,7 +126,7 @@ set noexpandtab " don't convert tabs to spaces!!! I'm not an anarchist!
 " folding
 set foldenable
 set foldlevelstart=0 " start with all folds folded
-"set foldmethod=syntax " commented out because of neocomplete (slows down?)
+set foldmethod=syntax " commented out because of neocomplete (slows down?)
 "set foldmethod=2 " adds a fold column
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo " specifies which commands will auto-unfold a section
 
@@ -148,17 +148,17 @@ set formatoptions+=r " automatically insert comment  leader after hitting enter 
 set backspace=indent,eol,start whichwrap+=<,>,[,] " backspace and cursor keys wrap to previous/next line
 
 " directories
-set backupdir=C:\dwl\tmp\bak
-set directory=C:\dwl\tmp\swp
-set undodir=C:\dwl\tmp\undo
-set tags=./.tags;,~/.tags
-set makeprg=build.bat
+"set backupdir=C:\dwl\tmp\bak
+"set directory=C:\dwl\tmp\swp
+"set undodir=C:\dwl\tmp\undo
+"set tags=./.tags;,~/.tags
+"set makeprg=build.bat
 
 " misc
 set hidden " allows switching buffers while still having unsaved changes in prev buffer
 "set omnifunc=syntaxcomplete#Complete " I still have no idea what this does...
 set lazyredraw " reduce flickering
-set cryptmethod=blowfish2
+"set cryptmethod=blowfish2
 
 " ==============================================================================
 " KEY BINDINGS
@@ -290,7 +290,7 @@ autocmd QuickFixCmdPost * nested botright copen " open error window when compile
 autocmd BufEnter * silent! lcd %:p:h " this will automatically make the current working directory always the local directory of whatever file you're currently editing.
 
 " set 'default file location' to the vim folder in my docs
-cd C:\files\docs\life\vim
+"cd C:\files\docs\life\vim
 
 " ps1 configuration
 au BufNewFile,BufRead *.ps1 setf ps1
