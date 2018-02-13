@@ -316,6 +316,21 @@ nnoremap <LEADER><SPACE> :nohlsearch<CR>
 "inoremap <C-[> <CR>{<CR>}<Esc>O<tab>
 "inoremap <C-[> <CR>{<CR>}<Esc>O
 
+" automagically add things
+inoremap {{ <esc>xo{<cr>}<esc>O
+inoremap (( (<esc>a)<esc>i
+inoremap [[ [<esc>a]<esc>i
+inoremap << <<esc>a><esc>i
+inoremap "" "<esc>a"<esc>i
+inoremap '' '<esc>a'<esc>i
+
+" useful things to have in insert mode
+inoremap <C-o> <esc>o
+inoremap <C-l> <esc>la
+
+nnoremap <enter> o<esc>k
+
+
 " ==============================================================================
 " COMMAND REMAPPING
 " ==============================================================================
