@@ -120,7 +120,7 @@ set number " line numbers!
 set scrolloff=4 " keep 4 visible lines around cursorline when near top or bottom
 set cursorline " bghighlight of current line
 set title " window title
-set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
+set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername
 set laststatus=2 " always show status line
 set statusline=%t\ %m%*\ %y%h%r%w\ %<%F\ %*\ %=\ Lines:\ %L\ \ \ Col:\ %c\ \ \ [%n]
 
@@ -135,8 +135,9 @@ set tabstop=4 " number of columns used for a tab
 set shiftwidth=4 " how columns indent operations (<<, >>) use
 set softtabstop=4 " how many spaces used when hit tab in insert mode
 set noexpandtab " don't convert tabs to spaces!!! I'm not an anarchist! 
-autocmd FileType python setlocal expandtab
+"autocmd FileType python setlocal expandtab
 "set expandtab 
+set shiftround " if fixing indenting, actually fix it
 
 " folding
 set foldenable
@@ -156,16 +157,32 @@ set autoindent " smart indenting and stuff, based on file type
 set textwidth=80 " how many columns before wrapping text (0 for no limit) NOTE: formatoptions specifies what kind of text this is used for 
 set wrapmargin=0 " distance from edge of window that wrapping starts
 set formatoptions=l " long lines won't be broken up if entering insert mode and already past textwidth
-set formatoptions+=c " auto-wrap comments using text width and auto insert comment leader
+"set formatoptions+=c " auto-wrap comments using text width and auto insert comment leader
 set formatoptions+=j " be all smart and when joing a comment line, take out the extra comment leader 
 set formatoptions+=q " allow formatting of comments with 'gq'
-set formatoptions+=r " automatically insert comment  leader after hitting enter in insert mode
+"set formatoptions+=r " automatically insert comment  leader after hitting enter in insert mode
 set backspace=indent,eol,start whichwrap+=<,>,[,] " backspace and cursor keys wrap to previous/next line
 
-" directories
-" set backupdir=C:\dwl\tmp\bak
-" set directory=C:\dwl\tmp\swp
-" set undodir=C:\dwl\tmp\undo
+" directories/file handling
+set autoread
+set backup
+set undofile
+set swapfile
+set backupdir=~/tmp/bak
+set undodir=~/tmp/undo
+set directory=~/tmp/swap
+
+" if directories don't already exist, make them
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
+
 " set tags=./.tags;,~/.tags
 " set makeprg=build.bat
 
@@ -205,11 +222,11 @@ vnoremap <C-X> "+x
 vnoremap <C-C> "+y
 
 " CTRL-V for paste
-map <C-V> "+gP
-cmap <C-V> <C-R>+
+nnoremap <C-V> "+gP
+cnoremap <C-V> <C-R>+
 
 " normally CTRL-V is the column select, but change it to ctrl-q
-noremap <C-Q> <C-V>
+nnoremap <c-b> <c-v>
 
 " Use CTRL-S for saving, also in Insert mode
 noremap <C-S> :update<CR>
@@ -267,21 +284,55 @@ inoremap <F5> <ESC>:make<CR>
 " fix broken CTRL-A increment number shortcut to CTRL-I
 nnoremap <C-I> <C-A>
 
+" tab control
+nnoremap <tab>h :tabprev<cr>
+nnoremap <tab>l :tabnext<cr>
+nnoremap <tab><enter> :tabnew<cr>
+nnoremap <tab>x :tabclose<cr>
+
+" make yank work the same as the other keys
+nnoremap Y y$
+
+" more sane usages of H and L
+nnoremap H ^
+nnoremap L $
+
+" convert word before cursor (or on cursor) to upper case (uses z mark)
+inoremap <C-u> <esc>mzgUiw`za
+nnoremap <C-u> mzgUiw`z
+
+" surround word with things (uses z mark)
+nnoremap <leader>( mzbi(<esc>ea)<esc>`zl
+nnoremap <leader>" mzbi"<esc>ea"<esc>`zl
+nnoremap <leader>< mzbi<<esc>ea><esc>`zl
+
+" Split line (on next space)
+nnoremap S f<space>s<cr><esc>==
+
 " leader shortcuts!
 nnoremap <LEADER><SPACE> :nohlsearch<CR>
 
 "automatically add braces!
 "inoremap <C-[> <CR>{<CR>}<Esc>O<tab>
-inoremap <C-[> <CR>{<CR>}<Esc>O
+"inoremap <C-[> <CR>{<CR>}<Esc>O
 
 " ==============================================================================
 " COMMAND REMAPPING
 " ==============================================================================
-cmap W w
-cmap lw w
-cmap Lw w
-cmap lW w
-cmap LW w
+
+"cmap W w
+"cmap lw w
+"cmap Lw w
+"cmap lW w
+"cmap LW w
+
+
+" ==============================================================================
+" ABBREVIATIONS
+" ==============================================================================
+
+abbreviate note NOTE:
+abbreviate todo TODO:
 
 " ==============================================================================
 " MISC
@@ -298,8 +349,8 @@ function! Tab_Or_Complete()
     return "\<Tab>"
   endif
 endfunction
-:inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
-:inoremap <S-Tab> <C-P>
+inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+inoremap <S-Tab> <C-P>
 
 autocmd QuickFixCmdPost * nested botright copen " open error window when compile from in vim?
 autocmd BufEnter * silent! lcd %:p:h " this will automatically make the current working directory always the local directory of whatever file you're currently editing.
@@ -315,3 +366,113 @@ filetype plugin indent on
 
 " push gvim window to foreground (sometimes is in back?)
 call foreground()
+
+" ==============================================================================
+" TESTING GROUNDS
+" ==============================================================================
+
+if !exists(":DiffOrig")
+	command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis 
+				\ | wincmd p | diffthis
+endif
+
+function! Type_completion()
+	echo "Type completion on"
+	inoremap <silent> a a<C-n><C-p>
+	inoremap <silent> b b<C-n><C-p>
+	inoremap <silent> c c<C-n><C-p>
+	inoremap <silent> d d<C-n><C-p>
+	inoremap <silent> e e<C-n><C-p>
+	inoremap <silent> f f<C-n><C-p>
+	inoremap <silent> g g<C-n><C-p>
+	inoremap <silent> h h<C-n><C-p>
+	inoremap <silent> i i<C-n><C-p>
+	inoremap <silent> j j<C-n><C-p>
+	inoremap <silent> k k<C-n><C-p>
+	inoremap <silent> l l<C-n><C-p>
+	inoremap <silent> m m<C-n><C-p>
+	inoremap <silent> n n<C-n><C-p>
+	inoremap <silent> o o<C-n><C-p>
+	inoremap <silent> p p<C-n><C-p>
+	inoremap <silent> q q<C-n><C-p>
+	inoremap <silent> r r<C-n><C-p>
+	inoremap <silent> s s<C-n><C-p>
+	inoremap <silent> t t<C-n><C-p>
+	inoremap <silent> u u<C-n><C-p>
+	inoremap <silent> v v<C-n><C-p>
+	inoremap <silent> w w<C-n><C-p>
+	inoremap <silent> x x<C-n><C-p>
+	inoremap <silent> y y<C-n><C-p>
+	inoremap <silent> z z<C-n><C-p>
+	
+endfunction
+function! Type_completion_off()
+	echo "Type completion off"
+	inoremap a a
+	inoremap b b
+	inoremap c c
+	inoremap d d
+	inoremap e e
+	inoremap f f
+	inoremap g g
+	inoremap h h
+	inoremap i i
+	inoremap j j
+	inoremap k k
+	inoremap l l
+	inoremap m m
+	inoremap n n
+	inoremap o o
+	inoremap p p
+	inoremap q q
+	inoremap r r
+	inoremap s s
+	inoremap t t
+	inoremap u u
+	inoremap v v
+	inoremap w w
+	inoremap x x
+	inoremap y y
+	inoremap z z
+endfunction
+nnoremap <leader><tab> :call Type_completion()<cr>
+nnoremap <leader><S-tab> :call Type_completion_off()<cr>
+:silent call Type_completion()
+
+"function! Type_completion_menu_decision(letter)
+	""if strpart(getline("."), col('.')
+	""call complete(col('.'), getcompletion('', 'user'))
+	""let words = split(substitute(join(getline(1, '$'), " "), "[:\(\)\?\\\/\,\.\-]", "","g"), "[\s]")
+	"
+	"let line = getline('.')
+	"let start = col('.')
+	"let length = 0
+	"while start > 0 && line[start - 1] =~ '\w'
+		"let start -= 1
+		"let length += 1
+	"endwhile
+"
+	"
+	"let words = split(join(getline(1, '$'), " "), '\(\s\|\.\|\:\|\,\)')
+	"let cleanedwords = []
+	"let part = strpart(getline('.'), start, length)
+	"echo part
+	"echo length
+	"for word in words
+		"let cleaned = substitute(word, '[?\(\)]', "", "g")
+		"if cleaned =~ "^".part
+			"call add(cleanedwords, cleaned)
+		"endif
+	"endfor
+	""echo cleanedwords
+	"
+	"let things = ['athing1', 'athing2']
+	"
+	"
+	""call complete(col('.'), cleanedwords)
+	""call complete(start, cleanedwords)
+	""call complete(col('.')-length, cleanedwords)
+	"call complete(col('.')-length, cleanedwords)
+	"return ''
+"endfunction
+
