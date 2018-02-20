@@ -336,7 +336,7 @@ nnoremap <enter> o<esc>k
 " ==============================================================================
 
 "cmap W w
-"cmap lw w
+cmap lw w
 "cmap Lw w
 "cmap lW w
 "cmap LW w
