@@ -312,6 +312,12 @@ nnoremap S f<space>s<cr><esc>==
 " leader shortcuts!
 nnoremap <LEADER><SPACE> :nohlsearch<CR>
 
+"inoremap <leader>/ "=strftime("%m/%d/%Y")
+
+" date/time stuff
+inoremap <C-d> <C-r>=strftime('%m/%d/%Y')<cr><esc>a
+nnoremap <C-d> gg/Date edited<cr>2E2lC<C-r>=strftime("%m/%d/%Y")<cr><esc>:nohlsearch<cr><C-o><C-o>:echo "Date edited timestamp updated!"<cr>
+
 "automatically add braces!
 "inoremap <C-[> <CR>{<CR>}<Esc>O<tab>
 "inoremap <C-[> <CR>{<CR>}<Esc>O
