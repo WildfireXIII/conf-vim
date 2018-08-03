@@ -5,6 +5,54 @@
 " PLUGIN HANDLING
 " ==============================================================================
 
+if empty(glob('~/.vim/autoload/plug.vim'))
+	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+		\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif	
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
+Plug 'SirVer/ultisnips'
+Plug 'itchyny/lightline.vim'
+Plug 'airblade/vim-gitgutter'
+" Plug 'w0rp/ale' " TODO: look into this more
+
+if has('nvim')
+	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else 
+	Plug 'lifepillar/vim-mucomplete'
+endif
+	
+Plug 'davidhalter/jedi-vim'
+Plug 'shawncplus/phpcomplete.vim'
+
+Plug 'rakr/vim-one' " colorscheme
+Plug 'sjl/badwolf' " colorscheme
+
+call plug#end()
+
+" ---- mucomplete settings ----
+if !has('nvim')
+	let g:mucomplete#enable_auto_at_startup = 1
+endif
+
+" ---- deoplete settings ----
+if has('nvim')
+	let g:deoplete#enable_at_startup = 1
+	autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+	inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+	"let g:deoplete#sources = {}
+	"let g:deoplete#sources['python'] = []
+
+	"call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])	
+endif
+
+
+
 " matchit plugin makes % work a bit better
 " packadd matchit
 
@@ -61,42 +109,76 @@
 
 " ---- UltiSnips settings ----
 " let g:UltiSnipsUsePythonVersion = 2
-" let g:UltiSnipsEditSplit = "vertical"
-" let g:UltiSnipsSnippetsDir="/dwl/lab/Snippets" " where snippets are saved
-" let g:UltiSnipsSnippetDirectories=["/dwl/lab/Snippets"] " where snippets are searched for TODO: just add the library directory here, so you can use both quickly created ones as well as the common library
-" let g:UltiSnipsExpandTrigger="<C-SPACE>"
-" let g:UltiSnipsJumpForwardTrigger="<TAB>"
-" let g:UltiSnipsJumpBackwardTrigger="<S-TAB>"
-" let g:UltiSnipsListSnippets="<C-e>"
-" inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<C-R>=UltiSnips#ExpandSnippet()"
+let g:UltiSnipsEditSplit = "context"
+let g:UltiSnipsSnippetsDir=$HOME."/.vim/UltiSnips" " where snippets are saved
+let g:UltiSnipsSnippetDirectories=[$HOME."/.vim/UltiSnips"] " where snippets are searched for TODO: just add the library directory here, so you can use both quickly created ones as well as the common library
+let g:UltiSnipsExpandTrigger="<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-space>"
+let g:UltiSnipsJumpBackwardTrigger="<m-space>"
+"let g:UltiSnipsListSnippets="<C-e>"
+"inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<C-R>=UltiSnips#ExpandSnippet()"
 
 " ---- Tagbar settings ----
 "nmap <silent> <leader>t :TagbarToggle<CR>
+
+" ---- lightline settings ----
+let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'readonly', 'filename', 'modified'] ],
+	  \	  'right': [ [ 'lineinfo' ],
+      \              [ 'percent', 'linecount' ],
+      \              [ 'fileformat', 'fileencoding', 'filetype'] ]
+      \ },
+      \ 'component': {
+      \   'linecount': '%L'
+      \ },
+      \ }
+
+" ---- gitgutter settings ----
+set updatetime=100
+"https://github.com/airblade/vim-gitgutter TODO: add toggle hotkeys
+
+" ---- ale settings ----
+let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
 
 " ==============================================================================
 " GUI SPECIFIC STUFF
 " ==============================================================================
 
-if &term == "rxvt-unicode-256color"
-	colorscheme jellybeans
+" if &term == "rxvt-unicode-256color"
+	" colorscheme jellybeans
 
-	" fix some theming stuff
-	let g:jellybeans_overrides = { 'background': {'ctermbg': 'none', '256ctermbg': 'none'}, }
-	
-	let g:jellybeans_overrides = {
-			\    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
-			\	'CursorLine': { 'ctermbg': 'DarkGrey', '256ctermbg': '236' },
-			\}
-	
-endif
+	" " fix some theming stuff
+	" let g:jellybeans_overrides = { 'background': {'ctermbg': 'none', '256ctermbg': 'none'}, }
+	" 
+	" let g:jellybeans_overrides = {
+			" \    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
+			" \	'CursorLine': { 'ctermbg': 'DarkGrey', '256ctermbg': '236' },
+			" \}
+	" 
+" endif
+
+" Don't let vim theme ruin the terminal transparency
+autocmd ColorScheme * highlight Normal ctermbg = None
+autocmd ColorScheme * highlight NonText ctermbg = None
+autocmd ColorScheme * highlight Folded ctermbg = None
+autocmd ColorScheme * highlight FoldColumn ctermbg = None
+autocmd ColorScheme * highlight SignColumn ctermbg = None
+autocmd ColorScheme * highlight LineNr ctermbg = None
+
+colorscheme badwolf
+set background=dark
+
 
 if has('gui_running')
 	set guifont=Consolas:h10
 	" colorscheme solarized
-	colorscheme jellybeans
+	" colorscheme jellybeans
 	set background=dark
 	set guioptions-=T " remove toolbar
-	set guioptions-=r " remove scrollbar on right
+	sMaMaet guioptions-=r " remove scrollbar on right
 	set guioptions-=R " same as above
 	set guioptions-=l " remove scrollbar on left
 	set guioptions-=L " same as above
@@ -123,6 +205,7 @@ set title " window title
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername
 set laststatus=2 " always show status line
 set statusline=%t\ %m%*\ %y%h%r%w\ %<%F\ %*\ %=\ Lines:\ %L\ \ \ Col:\ %c\ \ \ [%n]
+set noshowmode " mode unnecessary since shown in lightline
 
 " search
 set hlsearch " highlight search matches
@@ -145,6 +228,7 @@ set foldlevelstart=0 " start with all folds folded
 set foldmethod=syntax " commented out because of neocomplete (slows down?)
 "set foldmethod=2 " adds a fold column
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo " specifies which commands will auto-unfold a section
+set foldcolumn=1
 
 " commandline tab help/completion
 set wildmenu
@@ -186,11 +270,24 @@ endif
 " set tags=./.tags;,~/.tags
 " set makeprg=build.bat
 
+" sound
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
 " misc
 set hidden " allows switching buffers while still having unsaved changes in prev buffer
 "set omnifunc=syntaxcomplete#Complete " I still have no idea what this does...
 set lazyredraw " reduce flickering
+set showmatch
+set magic " for regular expressions
 " set cryptmethod=blowfish2
+
+set completeopt+=menuone
+set completeopt+=noselect
+set completeopt-=preview " so that annoying preview window stops popping up...
+set shortmess+=c
 
 " ==============================================================================
 " KEY BINDINGS
@@ -266,12 +363,12 @@ noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
 " ALT-j/k moves lines up and down
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-inoremap <A-j> <Esc>:m .+1<CR>==gi
-inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
+"nnoremap <A-j> :m .+1<CR>==
+"nnoremap <A-k> :m .-2<CR>==
+"inoremap <A-j> <Esc>:m .+1<CR>==gi
+"inoremap <A-k> <Esc>:m .-2<CR>==gi
+"vnoremap <A-j> :m '>+1<CR>gv=gv
+"vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " shortcuts to move back and forth in buffers 
 nnoremap <F2> :bprevious<CR>
@@ -336,6 +433,23 @@ inoremap <C-l> <esc>la
 
 nnoremap <enter> o<esc>k
 
+" better searching keys
+map <space> /
+map <S-space> ?
+
+" move lines of text up and down
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+" quickly open a buffer for scribble
+map <leader>qv :vsplit ~/buffer<cr>
+map <leader>qs :split ~/buffer<cr>
+
+" quickly open a markdown buffer for scribble
+map <leader>xv :vsplit ~/buffer.md<cr>
+map <leader>xs :split ~/buffer.md<cr>
 
 " ==============================================================================
 " COMMAND REMAPPING
@@ -363,18 +477,18 @@ abbreviate todo TODO:
 syntax on
 
 " autocomplete (thanks to http://vim.wikia.com/wiki/Autocomplete_with_TAB_when_typing_words for the function)
-function! Tab_Or_Complete()
-  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
-    return "\<C-N>"
-  else
-    return "\<Tab>"
-  endif
-endfunction
-inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
-inoremap <S-Tab> <C-P>
-
-autocmd QuickFixCmdPost * nested botright copen " open error window when compile from in vim?
-autocmd BufEnter * silent! lcd %:p:h " this will automatically make the current working directory always the local directory of whatever file you're currently editing.
+" function! Tab_Or_Complete()
+"   if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+"     return "\<C-N>"
+"   else
+"     return "\<Tab>"
+"   endif
+" endfunction
+" inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+" inoremap <S-Tab> <C-P>
+" 
+" autocmd QuickFixCmdPost * nested botright copen " open error window when compile from in vim?
+" autocmd BufEnter * silent! lcd %:p:h " this will automatically make the current working directory always the local directory of whatever file you're currently editing.
 
 " set 'default file location' to the vim folder in my docs
 " cd C:\files\docs\life\vim
@@ -392,73 +506,74 @@ call foreground()
 " TESTING GROUNDS
 " ==============================================================================
 
+
 if !exists(":DiffOrig")
 	command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis 
 				\ | wincmd p | diffthis
 endif
-
-function! Type_completion()
-	echo "Type completion on"
-	inoremap <silent> a a<C-n><C-p>
-	inoremap <silent> b b<C-n><C-p>
-	inoremap <silent> c c<C-n><C-p>
-	inoremap <silent> d d<C-n><C-p>
-	inoremap <silent> e e<C-n><C-p>
-	inoremap <silent> f f<C-n><C-p>
-	inoremap <silent> g g<C-n><C-p>
-	inoremap <silent> h h<C-n><C-p>
-	inoremap <silent> i i<C-n><C-p>
-	inoremap <silent> j j<C-n><C-p>
-	inoremap <silent> k k<C-n><C-p>
-	inoremap <silent> l l<C-n><C-p>
-	inoremap <silent> m m<C-n><C-p>
-	inoremap <silent> n n<C-n><C-p>
-	inoremap <silent> o o<C-n><C-p>
-	inoremap <silent> p p<C-n><C-p>
-	inoremap <silent> q q<C-n><C-p>
-	inoremap <silent> r r<C-n><C-p>
-	inoremap <silent> s s<C-n><C-p>
-	inoremap <silent> t t<C-n><C-p>
-	inoremap <silent> u u<C-n><C-p>
-	inoremap <silent> v v<C-n><C-p>
-	inoremap <silent> w w<C-n><C-p>
-	inoremap <silent> x x<C-n><C-p>
-	inoremap <silent> y y<C-n><C-p>
-	inoremap <silent> z z<C-n><C-p>
-	
-endfunction
-function! Type_completion_off()
-	echo "Type completion off"
-	inoremap a a
-	inoremap b b
-	inoremap c c
-	inoremap d d
-	inoremap e e
-	inoremap f f
-	inoremap g g
-	inoremap h h
-	inoremap i i
-	inoremap j j
-	inoremap k k
-	inoremap l l
-	inoremap m m
-	inoremap n n
-	inoremap o o
-	inoremap p p
-	inoremap q q
-	inoremap r r
-	inoremap s s
-	inoremap t t
-	inoremap u u
-	inoremap v v
-	inoremap w w
-	inoremap x x
-	inoremap y y
-	inoremap z z
-endfunction
-nnoremap <leader><tab> :call Type_completion()<cr>
-nnoremap <leader><S-tab> :call Type_completion_off()<cr>
-:silent call Type_completion()
+" 
+" function! Type_completion()
+" 	echo "Type completion on"
+" 	inoremap <silent> a a<C-n><C-p>
+" 	inoremap <silent> b b<C-n><C-p>
+" 	inoremap <silent> c c<C-n><C-p>
+" 	inoremap <silent> d d<C-n><C-p>
+" 	inoremap <silent> e e<C-n><C-p>
+" 	inoremap <silent> f f<C-n><C-p>
+" 	inoremap <silent> g g<C-n><C-p>
+" 	inoremap <silent> h h<C-n><C-p>
+" 	inoremap <silent> i i<C-n><C-p>
+" 	inoremap <silent> j j<C-n><C-p>
+" 	inoremap <silent> k k<C-n><C-p>
+" 	inoremap <silent> l l<C-n><C-p>
+" 	inoremap <silent> m m<C-n><C-p>
+" 	inoremap <silent> n n<C-n><C-p>
+" 	inoremap <silent> o o<C-n><C-p>
+" 	inoremap <silent> p p<C-n><C-p>
+" 	inoremap <silent> q q<C-n><C-p>
+" 	inoremap <silent> r r<C-n><C-p>
+" 	inoremap <silent> s s<C-n><C-p>
+" 	inoremap <silent> t t<C-n><C-p>
+" 	inoremap <silent> u u<C-n><C-p>
+" 	inoremap <silent> v v<C-n><C-p>
+" 	inoremap <silent> w w<C-n><C-p>
+" 	inoremap <silent> x x<C-n><C-p>
+" 	inoremap <silent> y y<C-n><C-p>
+" 	inoremap <silent> z z<C-n><C-p>
+" 	
+" endfunction
+" function! Type_completion_off()
+" 	echo "Type completion off"
+" 	inoremap a a
+" 	inoremap b b
+" 	inoremap c c
+" 	inoremap d d
+" 	inoremap e e
+" 	inoremap f f
+" 	inoremap g g
+" 	inoremap h h
+" 	inoremap i i
+" 	inoremap j j
+" 	inoremap k k
+" 	inoremap l l
+" 	inoremap m m
+" 	inoremap n n
+" 	inoremap o o
+" 	inoremap p p
+" 	inoremap q q
+" 	inoremap r r
+" 	inoremap s s
+" 	inoremap t t
+" 	inoremap u u
+" 	inoremap v v
+" 	inoremap w w
+" 	inoremap x x
+" 	inoremap y y
+" 	inoremap z z
+" endfunction
+" nnoremap <leader><tab> :call Type_completion()<cr>
+" nnoremap <leader><S-tab> :call Type_completion_off()<cr>
+" :silent call Type_completion()
 
 "function! Type_completion_menu_decision(letter)
 	""if strpart(getline("."), col('.')
