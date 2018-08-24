@@ -122,6 +122,11 @@ let g:UltiSnipsJumpBackwardTrigger="<m-space>"
 "nmap <silent> <leader>t :TagbarToggle<CR>
 
 " ---- lightline settings ----
+"  powerline characters:
+"  separator left: \ue0b0
+"  separator right: \ue0b2
+"  subseparator left: \ue0b1
+"  subseparator right: \ue0b4
 let g:lightline = {
       \ 'colorscheme': 'powerline',
       \ 'active': {
@@ -134,6 +139,8 @@ let g:lightline = {
       \ 'component': {
       \   'linecount': '%L'
       \ },
+	  \ 'separator': { 'left': '', 'right': '' },
+	  \ 'subseparator': { 'left': '', 'right': '' }
       \ }
 
 " ---- gitgutter settings ----
@@ -202,7 +209,7 @@ set number " line numbers!
 set scrolloff=4 " keep 4 visible lines around cursorline when near top or bottom
 set cursorline " bghighlight of current line
 set title " window title
-set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername
+set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
 set laststatus=2 " always show status line
 set statusline=%t\ %m%*\ %y%h%r%w\ %<%F\ %*\ %=\ Lines:\ %L\ \ \ Col:\ %c\ \ \ [%n]
 set noshowmode " mode unnecessary since shown in lightline
