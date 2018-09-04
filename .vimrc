@@ -144,7 +144,7 @@ let g:lightline = {
       \ }
 
 " ---- gitgutter settings ----
-set updatetime=100
+"set updatetime=100
 "https://github.com/airblade/vim-gitgutter TODO: add toggle hotkeys
 
 " ---- ale settings ----
@@ -429,8 +429,8 @@ nnoremap <C-d> gg/Date edited<cr>2E2lC<C-r>=strftime("%m/%d/%Y")<cr><esc>:nohlse
 " automagically add things
 inoremap {{ <esc>xo{<cr>}<esc>O
 inoremap (( (<esc>a)<esc>i
-inoremap [[ [<esc>a]<esc>i
-inoremap << <<esc>a><esc>i
+"inoremap [[ [<esc>a]<esc>i
+"inoremap << <<esc>a><esc>i
 inoremap "" "<esc>a"<esc>i
 inoremap '' '<esc>a'<esc>i
 
