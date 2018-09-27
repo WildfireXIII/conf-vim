@@ -18,7 +18,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin', { 'on': 'NERDTreeToggle' }
 Plug 'SirVer/ultisnips'
 Plug 'itchyny/lightline.vim'
 Plug 'airblade/vim-gitgutter'
-" Plug 'w0rp/ale' " TODO: look into this more
+Plug 'w0rp/ale' " TODO: look into this more
 
 if has('nvim')
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
