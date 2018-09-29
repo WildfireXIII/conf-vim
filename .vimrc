@@ -26,7 +26,7 @@ else
 	Plug 'lifepillar/vim-mucomplete'
 endif
 	
-Plug 'davidhalter/jedi-vim'
+Plug 'zchee/deoplete-jedi'
 Plug 'shawncplus/phpcomplete.vim'
 
 Plug 'rakr/vim-one' " colorscheme
@@ -149,6 +149,11 @@ let g:lightline = {
 
 " ---- ale settings ----
 let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
+let g:ale_fix_on_save = 1
+let g:ale_fixers = {
+			\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+			\ 'python': ['black', 'isort'],
+			\ }
 
 " ==============================================================================
 " GUI SPECIFIC STUFF
@@ -225,9 +230,9 @@ set tabstop=4 " number of columns used for a tab
 set shiftwidth=4 " how columns indent operations (<<, >>) use
 set softtabstop=4 " how many spaces used when hit tab in insert mode
 set noexpandtab " don't convert tabs to spaces!!! I'm not an anarchist! 
-"autocmd FileType python setlocal expandtab
+autocmd FileType python setlocal expandtab " okay, fine, spaces in python...
 "set expandtab 
-set shiftround " if fixing indenting, actually fix it
+"set shiftround " if fixing indenting, actually fix it
 
 " folding
 set foldenable
@@ -428,11 +433,11 @@ nnoremap <C-d> gg/Date edited<cr>2E2lC<C-r>=strftime("%m/%d/%Y")<cr><esc>:nohlse
 
 " automagically add things
 inoremap {{ <esc>xo{<cr>}<esc>O
-inoremap (( (<esc>a)<esc>i
+"inoremap (( (<esc>a)<esc>i
 "inoremap [[ [<esc>a]<esc>i
 "inoremap << <<esc>a><esc>i
-inoremap "" "<esc>a"<esc>i
-inoremap '' '<esc>a'<esc>i
+"inoremap "" "<esc>a"<esc>i
+"inoremap '' '<esc>a'<esc>i
 
 " useful things to have in insert mode
 inoremap <C-o> <esc>o
