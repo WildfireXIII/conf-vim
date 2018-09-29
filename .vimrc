@@ -9,7 +9,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
 		\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif	
+endif
 
 call plug#begin('~/.vim/plugged')
 
@@ -22,10 +22,10 @@ Plug 'w0rp/ale' " TODO: look into this more
 
 if has('nvim')
 	Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else 
+else
 	Plug 'lifepillar/vim-mucomplete'
 endif
-	
+
 Plug 'zchee/deoplete-jedi'
 Plug 'shawncplus/phpcomplete.vim'
 
@@ -48,7 +48,7 @@ if has('nvim')
 	"let g:deoplete#sources = {}
 	"let g:deoplete#sources['python'] = []
 
-	"call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])	
+	"call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
 endif
 
 
@@ -75,7 +75,7 @@ endif
 
 " ---- easytags settings ----
 " let g:easytags_auto_highlight=0
-" let g:easytags_auto_update=0 
+" let g:easytags_auto_update=0
 " let g:easytags_include_members=1
 " let g:easytags_supress_report=1
 " let g:easytags_dynamic_files=1
@@ -83,7 +83,7 @@ endif
 " ---- neocomplete settings ----
 " let g:neocomplete#enable_at_startup = 1
 " let g:neocomplete#enable_auto_select = 1
-" let g:neocomplete#auto_completion_start_length = 0 
+" let g:neocomplete#auto_completion_start_length = 0
 " if !exists('g:neocomplete#sources')
   " let g:neocomplete#sources = {}
 " endif
@@ -96,10 +96,10 @@ endif
 " endif
 " let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" complete suggestion with shift space 
+" complete suggestion with shift space
 " inoremap <expr><S-Space> pumvisible() ? "\<C-y><Space>" : "\<Space>"
 
-" do thing so that enter doesn't go down to confirm an autocomplete 
+" do thing so that enter doesn't go down to confirm an autocomplete
 " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 " function! s:my_cr_function()
   "return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
@@ -149,11 +149,13 @@ let g:lightline = {
 
 " ---- ale settings ----
 let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
-let g:ale_fix_on_save = 1
+let g:ale_fix_on_save = 0
 let g:ale_fixers = {
 			\ '*': ['remove_trailing_lines', 'trim_whitespace'],
 			\ 'python': ['black', 'isort'],
 			\ }
+noremap <C-f> :ALEFix<CR>
+
 
 " ==============================================================================
 " GUI SPECIFIC STUFF
@@ -164,12 +166,12 @@ let g:ale_fixers = {
 
 	" " fix some theming stuff
 	" let g:jellybeans_overrides = { 'background': {'ctermbg': 'none', '256ctermbg': 'none'}, }
-	" 
+	"
 	" let g:jellybeans_overrides = {
 			" \    'background': { 'ctermbg': 'none', '256ctermbg': 'none' },
 			" \	'CursorLine': { 'ctermbg': 'DarkGrey', '256ctermbg': '236' },
 			" \}
-	" 
+	"
 " endif
 
 " Don't let vim theme ruin the terminal transparency
@@ -190,7 +192,7 @@ if has('gui_running')
 	" colorscheme jellybeans
 	set background=dark
 	set guioptions-=T " remove toolbar
-	sMaMaet guioptions-=r " remove scrollbar on right
+	set guioptions-=r " remove scrollbar on right
 	set guioptions-=R " same as above
 	set guioptions-=l " remove scrollbar on left
 	set guioptions-=L " same as above
@@ -199,7 +201,7 @@ if has('gui_running')
 	set lines=25 columns=120 " make the starting window larger ("for h10 consolas, set this to 28x125
 endif
 
-" allow mouse usage if available 
+" allow mouse usage if available
 if has('mouse')
 	set mouse=a
 	set mousehide " hide mouse when typing text
@@ -229,9 +231,9 @@ set smartcase " ...unless being smart about it!
 set tabstop=4 " number of columns used for a tab
 set shiftwidth=4 " how columns indent operations (<<, >>) use
 set softtabstop=4 " how many spaces used when hit tab in insert mode
-set noexpandtab " don't convert tabs to spaces!!! I'm not an anarchist! 
+set noexpandtab " don't convert tabs to spaces!!! I'm not an anarchist!
 autocmd FileType python setlocal expandtab " okay, fine, spaces in python...
-"set expandtab 
+"set expandtab
 "set shiftround " if fixing indenting, actually fix it
 
 " folding
@@ -250,11 +252,11 @@ set wildmode=longest,list
 "set wrap
 set encoding=utf-8
 set autoindent " smart indenting and stuff, based on file type
-set textwidth=80 " how many columns before wrapping text (0 for no limit) NOTE: formatoptions specifies what kind of text this is used for 
+set textwidth=80 " how many columns before wrapping text (0 for no limit) NOTE: formatoptions specifies what kind of text this is used for
 set wrapmargin=0 " distance from edge of window that wrapping starts
 set formatoptions=l " long lines won't be broken up if entering insert mode and already past textwidth
 "set formatoptions+=c " auto-wrap comments using text width and auto insert comment leader
-set formatoptions+=j " be all smart and when joing a comment line, take out the extra comment leader 
+set formatoptions+=j " be all smart and when joing a comment line, take out the extra comment leader
 set formatoptions+=q " allow formatting of comments with 'gq'
 "set formatoptions+=r " automatically insert comment  leader after hitting enter in insert mode
 set backspace=indent,eol,start whichwrap+=<,>,[,] " backspace and cursor keys wrap to previous/next line
@@ -364,7 +366,7 @@ inoremap <C-Tab> <C-O><C-W>w
 cnoremap <C-Tab> <C-C><C-W>w
 onoremap <C-Tab> <C-C><C-W>w
 
-" ctrl enter and shift enter add empty lines above and below cursorline respectively 
+" ctrl enter and shift enter add empty lines above and below cursorline respectively
 nnoremap <S-CR> m`o<ESC>``
 nnoremap <C-CR> m`O<ESC>``
 
@@ -382,11 +384,11 @@ noremap <C-l> <C-w>l
 "vnoremap <A-j> :m '>+1<CR>gv=gv
 "vnoremap <A-k> :m '<-2<CR>gv=gv
 
-" shortcuts to move back and forth in buffers 
+" shortcuts to move back and forth in buffers
 nnoremap <F2> :bprevious<CR>
 nnoremap <F3> :bnext<CR>
 
-" compile shortcuts 
+" compile shortcuts
 nnoremap <F5> :make<CR>
 inoremap <F5> <ESC>:make<CR>
 
@@ -498,7 +500,7 @@ syntax on
 " endfunction
 " inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 " inoremap <S-Tab> <C-P>
-" 
+"
 " autocmd QuickFixCmdPost * nested botright copen " open error window when compile from in vim?
 " autocmd BufEnter * silent! lcd %:p:h " this will automatically make the current working directory always the local directory of whatever file you're currently editing.
 
@@ -509,7 +511,7 @@ syntax on
 au BufNewFile,BufRead *.ps1 setf ps1
 
 " load indent files for automatic language-dependent indenting
-filetype plugin indent on 
+filetype plugin indent on
 
 " push gvim window to foreground (sometimes is in back?)
 call foreground()
@@ -520,10 +522,10 @@ call foreground()
 
 
 if !exists(":DiffOrig")
-	command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis 
+	command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
 				\ | wincmd p | diffthis
 endif
-" 
+"
 " function! Type_completion()
 " 	echo "Type completion on"
 " 	inoremap <silent> a a<C-n><C-p>
@@ -552,7 +554,7 @@ endif
 " 	inoremap <silent> x x<C-n><C-p>
 " 	inoremap <silent> y y<C-n><C-p>
 " 	inoremap <silent> z z<C-n><C-p>
-" 	
+"
 " endfunction
 " function! Type_completion_off()
 " 	echo "Type completion off"
@@ -623,4 +625,3 @@ endif
 	"call complete(col('.')-length, cleanedwords)
 	"return ''
 "endfunction
-
