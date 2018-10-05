@@ -149,10 +149,15 @@ let g:lightline = {
 
 " ---- ale settings ----
 let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
+let g:ale_completion_enabled = 1
+let g:ale_sign_column_always = 1
 let g:ale_fix_on_save = 0
 let g:ale_fixers = {
 			\ '*': ['remove_trailing_lines', 'trim_whitespace'],
 			\ 'python': ['black', 'isort'],
+			\ 'ruby': ['rufo', 'rubocop'],
+			\ 'c': ['clang-format'],
+			\ 'c++': ['clang-format'],
 			\ }
 noremap <C-f> :ALEFix<CR>
 
