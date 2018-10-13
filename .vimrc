@@ -243,7 +243,7 @@ autocmd FileType python setlocal expandtab " okay, fine, spaces in python...
 
 " folding
 set foldenable
-set foldlevelstart=0 " start with all folds folded
+"set foldlevelstart=0 " start with all folds folded
 set foldmethod=syntax " commented out because of neocomplete (slows down?)
 "set foldmethod=2 " adds a fold column
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo " specifies which commands will auto-unfold a section
