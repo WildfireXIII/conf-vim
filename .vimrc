@@ -149,16 +149,20 @@ let g:lightline = {
 
 " ---- ale settings ----
 let g:ale_python_pylint_options = "--init-hook='import sys; sys.path.append(\".\")'"
+let g:ale_python_pylint_change_directory = 0
 let g:ale_completion_enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_fix_on_save = 0
 let g:ale_fixers = {
 			\ '*': ['remove_trailing_lines', 'trim_whitespace'],
 			\ 'python': ['black', 'isort'],
-			\ 'ruby': ['rufo', 'rubocop'],
+			\ 'ruby': ['rubocop'],
 			\ 'c': ['clang-format'],
 			\ 'c++': ['clang-format'],
+			\ 'javascript': ['prettier'],
 			\ }
+let g:ale_ruby_reek_executable = 'bundle'
+let g:ale_ruby_rubocop_executable = 'bundle'
 noremap <C-f> :ALEFix<CR>
 
 
@@ -238,6 +242,10 @@ set shiftwidth=4 " how columns indent operations (<<, >>) use
 set softtabstop=4 " how many spaces used when hit tab in insert mode
 set noexpandtab " don't convert tabs to spaces!!! I'm not an anarchist!
 autocmd FileType python setlocal expandtab " okay, fine, spaces in python...
+autocmd FileType ruby setlocal expandtab 
+autocmd FileType ruby setlocal tabstop=2 
+autocmd FileType ruby setlocal shiftwidth=2 
+autocmd FileType ruby setlocal softtabstop=2 
 "set expandtab
 "set shiftround " if fixing indenting, actually fix it
 
