@@ -242,10 +242,13 @@ set shiftwidth=4 " how columns indent operations (<<, >>) use
 set softtabstop=4 " how many spaces used when hit tab in insert mode
 set noexpandtab " don't convert tabs to spaces!!! I'm not an anarchist!
 autocmd FileType python setlocal expandtab " okay, fine, spaces in python...
+autocmd FileType *.rst setlocal expandtab " okay, fine, spaces in python...
+
 autocmd FileType ruby setlocal expandtab 
 autocmd FileType ruby setlocal tabstop=2 
 autocmd FileType ruby setlocal shiftwidth=2 
 autocmd FileType ruby setlocal softtabstop=2 
+
 "set expandtab
 "set shiftround " if fixing indenting, actually fix it
 
